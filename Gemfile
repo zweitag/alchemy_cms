@@ -6,6 +6,8 @@ gemspec
 gem 'jasmine'
 gem 'jasminerice'
 
+gem 'localeapp'
+
 group :test do
   gem 'sqlite3'               if ENV['DB'].nil? || ENV['DB'] == 'sqlite'
   gem 'mysql2'                if ENV['DB'] == 'mysql'
