@@ -611,11 +611,12 @@ en:
     attributes:
 
       alchemy/attachment:
-        content_type: Filetype
+        file_mime_type: Filetype
         created_at: "Created at"
-        filename: Filename
+        file_name: Filename
         name: Name
-        size: Filesize
+        file_size: Filesize
+        tag_list: Tags
 
       alchemy/element:
         display_name: "Name"
