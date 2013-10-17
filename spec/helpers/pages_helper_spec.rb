@@ -80,7 +80,7 @@ module Alchemy
         context "as registered user" do
           before do
             restricted_page
-            Authorization.stub!(:current_user).and_return(FactoryGirl.build(:registered_user))
+            Authorization.stub!(:current_user).and_return(mock_model('User', alchemy_roles: %w(member)))
           end
 
           it "should render also restricted pages" do
@@ -262,7 +262,7 @@ module Alchemy
       end
 
       context "with options[:restricted_only] set to true" do
-        before { Authorization.current_user = FactoryGirl.build(:registered_user) }
+        before { Authorization.current_user = mock_model('User', alchemy_roles: %w(member)) }
 
         it "should render a breadcrumb of restricted pages only" do
           page.update_attributes!(restricted: true, urlname: 'a-restricted-public-page', name: 'A restricted Public Page', title: 'A restricted Public Page')
@@ -329,9 +329,7 @@ module Alchemy
     end
 
     describe "#language_links" do
-
       context "with two public languages" do
-
         # Always create second language
         before { klingonian }
 
@@ -342,7 +340,6 @@ module Alchemy
         end
 
         context "with two language root pages" do
-
           # Always create a language root page for klingonian
           before { klingonian_language_root }
 
@@ -404,11 +401,8 @@ module Alchemy
               end
             end
           end
-
         end
-
       end
-
     end
 
     describe "#picture_essence_caption" do

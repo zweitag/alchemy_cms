@@ -21,7 +21,7 @@ module Alchemy
     it "should not be possible to download attachments from restricted pages" do
       get :download, :id => attachment.id
       response.status.should == 302
-      response.should redirect_to(login_path)
+      response.should redirect_to(Alchemy.login_path)
     end
 
     it "should raise ActiveRecord::RecordNotFound for requesting not existing attachments" do
@@ -44,7 +44,7 @@ module Alchemy
     it "should not be possible to see attachments from restricted pages" do
       get :show, :id => attachment.id
       response.status.should == 302
-      response.should redirect_to(login_path)
+      response.should redirect_to(Alchemy.login_path)
     end
 
     context "as registered user" do

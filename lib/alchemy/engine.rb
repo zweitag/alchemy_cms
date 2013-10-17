@@ -2,7 +2,6 @@
 require 'coffee-rails'
 require 'compass-rails'
 require 'declarative_authorization'
-require 'devise'
 require 'dynamic_form'
 require 'jquery-rails'
 require 'jquery-ui-rails'
@@ -10,9 +9,10 @@ require 'kaminari'
 require 'rails3-jquery-autocomplete'
 require 'sass-rails'
 require 'sassy-buttons'
+require 'userstamp'
 
 # Require globally used Alchemy mixins
-require 'alchemy/auth/engine'
+require 'alchemy/auth_accessors'
 require 'alchemy/config'
 require 'alchemy/errors'
 require 'alchemy/essence'
@@ -25,6 +25,7 @@ require 'alchemy/mount_point'
 require 'alchemy/name_conversions'
 require 'alchemy/page_layout'
 require 'alchemy/picture_attributes'
+require 'alchemy/resource'
 require 'alchemy/tinymce'
 
 # Require hacks
@@ -36,7 +37,6 @@ require File.join(File.dirname(__FILE__), '../middleware/flash_session_cookie')
 
 module Alchemy
   class Engine < Rails::Engine
-
     isolate_namespace Alchemy
     engine_name 'alchemy'
     config.mount_at = '/'
@@ -64,14 +64,12 @@ module Alchemy
       )
     end
 
-    # filter sensitive information during logging
-    initializer "alchemy.params.filter" do |app|
-      app.config.filter_parameters += [:password, :password_confirmation]
+    config.after_initialize do
+      require 'alchemy/user'
     end
 
     initializer "alchemy.add_authorization_rules" do
-      Alchemy::Auth::Engine.get_instance.load(File.join(File.dirname(__FILE__), '../..', 'config/authorization_rules.rb'))
+      ::Authorization::Engine.instance.load(File.join(File.dirname(__FILE__), '../..', 'config/authorization_rules.rb'))
     end
-
   end
 end

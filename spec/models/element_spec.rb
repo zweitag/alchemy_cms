@@ -377,11 +377,11 @@ module Alchemy
 
     describe '#save' do
       let(:time) { Time.now }
-      let(:locker) { FactoryGirl.build_stubbed(:user) }
+      let(:locker) { mock_model('User') }
       let(:page) { FactoryGirl.create(:page, updated_at: time) }
       let(:element) { FactoryGirl.create(:element, page: page) }
 
-      before { User.stub(:stamper).and_return(locker.id) }
+      before { Alchemy.user_class.stub(:stamper).and_return(locker.id) }
 
       it "updates page timestamps" do
         element.save

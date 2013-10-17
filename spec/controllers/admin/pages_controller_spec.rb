@@ -3,10 +3,8 @@ require 'spec_helper'
 
 module Alchemy
   describe Admin::PagesController do
-
-    before do
-      sign_in(admin_user)
-    end
+    let(:user) { admin_user }
+    before { sign_in(user) }
 
     describe "#flush" do
 
@@ -109,14 +107,14 @@ module Alchemy
           end
 
           it "should redirect to given url" do
-            post :create, page: page_params, redirect_to: admin_users_path
-            response.should redirect_to(admin_users_path)
+            post :create, page: page_params, redirect_to: admin_pictures_path
+            response.should redirect_to(admin_pictures_path)
           end
 
           context "but new page can not be saved" do
             it "should redirect to admin_pages_path" do
               Page.any_instance.stub(:save).and_return(false)
-              post :create, page: {}, redirect_to: admin_users_path
+              post :create, page: {}, redirect_to: admin_pictures_path
               response.should redirect_to(admin_pages_path)
             end
           end
@@ -243,7 +241,7 @@ module Alchemy
         end
 
         it "should fold the page" do
-          page.should_receive(:fold!).with(controller.current_user.id, true).and_return(true)
+          page.should_receive(:fold!).with(user.id, true).and_return(true)
           post :fold, id: page.id, format: :js
         end
       end
@@ -254,7 +252,7 @@ module Alchemy
         end
 
         it "should unfold the page" do
-          page.should_receive(:fold!).with(controller.current_user.id, false).and_return(true)
+          page.should_receive(:fold!).with(user.id, false).and_return(true)
           post :fold, id: page.id, format: :js
         end
       end
