@@ -33,6 +33,7 @@
 //= require alchemy/alchemy.string_extension
 //= require alchemy/alchemy.link_overlay
 //= require alchemy/alchemy.list_filter
+//= require alchemy/alchemy.live_preview
 //= require alchemy/alchemy.initializer
 //= require alchemy/alchemy.page_sorter
 //= require alchemy/alchemy.uploader
