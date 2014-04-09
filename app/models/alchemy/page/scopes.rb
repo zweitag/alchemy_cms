@@ -86,7 +86,7 @@ module Alchemy
 
       # All pages for xml sitemap
       #
-      scope :sitemap, from_current_site.published.contentpages.where(sitemap: true)
+      scope :sitemap, -> { self.from_current_site.published.contentpages.where(sitemap: true) }
     end
 
   end
